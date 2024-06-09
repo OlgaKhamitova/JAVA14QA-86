@@ -1,6 +1,5 @@
 
 public class ShopRepository {
-
     private Product[] products = new Product[0];
 
     private Product[] addToArray(Product[] current, Product product) {
@@ -13,25 +12,11 @@ public class ShopRepository {
     }
 
     public void add(Product product) {
-
         products = addToArray(products, product);
     }
 
     public Product[] findAll() {
-
         return products;
-    }
-
-    public void remove(int id) {
-        Product[] tmp = new Product[products.length - 1];
-        int copyToIndex = 0;
-        for (Product product : products) {
-            if (product.getId() != id) {
-                tmp[copyToIndex] = product;
-                copyToIndex++;
-            }
-        }
-        products = tmp;
     }
 
     public Product findById(int productId) {
@@ -48,9 +33,16 @@ public class ShopRepository {
         if (this.findById(productId) == null) {
             throw new NotFoundException("Элемент с id: " + productId + " не найден");
         } else {
-            this.remove(productId);
+            Product[] tmp = new Product[products.length - 1];
+            int copyToIndex = 0;
+            for (Product product : products) {
+                if (product.getId() != productId) {
+                    tmp[copyToIndex] = product;
+                    copyToIndex++;
+                }
+            }
+            products = tmp;
         }
-
     }
 }
 
